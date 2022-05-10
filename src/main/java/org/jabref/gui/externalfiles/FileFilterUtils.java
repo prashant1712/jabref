@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 public class FileFilterUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileFilterUtils.class);
-    
     /* Returns the last edited time of a file as LocalDateTime. */
     public static LocalDateTime getFileTime(Path path) {
         FileTime lastEditedTime = null;
@@ -33,28 +32,28 @@ public class FileFilterUtils {
         return localDateTime;
     }
 
-    /* Returns true if a file with a specific path 
+    /* Returns true if a file with a specific path
      * was edited during the last 24 hours. */
     public boolean isDuringLastDay(LocalDateTime fileEditTime) {
         LocalDateTime NOW = LocalDateTime.now(ZoneId.systemDefault());
         return fileEditTime.isAfter(NOW.minusHours(24));
     }
 
-    /* Returns true if a file with a specific path 
+    /* Returns true if a file with a specific path
      * was edited during the last 7 days. */
     public boolean isDuringLastWeek(LocalDateTime fileEditTime) {
         LocalDateTime NOW = LocalDateTime.now(ZoneId.systemDefault());
         return fileEditTime.isAfter(NOW.minusDays(7));
     }
 
-    /* Returns true if a file with a specific path 
+    /* Returns true if a file with a specific path
      * was edited during the last 30 days. */
     public boolean isDuringLastMonth(LocalDateTime fileEditTime) {
         LocalDateTime NOW = LocalDateTime.now(ZoneId.systemDefault());
         return fileEditTime.isAfter(NOW.minusDays(30));
     }
 
-    /* Returns true if a file with a specific path 
+    /* Returns true if a file with a specific path
      * was edited during the last 365 days. */
     public boolean isDuringLastYear(LocalDateTime fileEditTime) {
         LocalDateTime NOW = LocalDateTime.now(ZoneId.systemDefault());
@@ -74,8 +73,15 @@ public class FileFilterUtils {
         };
         return isInDateRange;
     }
+    public static boolean filterByEx(Path path) {
+        boolean x;
+        if(path.toString().endsWith(".pd")||path.toString().endsWith(".DS_Store")){
+            x=true;
+        }else x=false;
+        return x;
+    }
 
-    /* Sorts a list of Path objects according to the last edited date 
+    /* Sorts a list of Path objects according to the last edited date
      * of their corresponding files, from newest to oldest. */
     public List<Path> sortByDateAscending(List<Path> files) {
         return files.stream()
@@ -86,7 +92,7 @@ public class FileFilterUtils {
                 .collect(Collectors.toList());
     }
 
-    /* Sorts a list of Path objects according to the last edited date 
+    /* Sorts a list of Path objects according to the last edited date
      * of their corresponding files, from oldest to newest. */
     public List<Path> sortByDateDescending(List<Path> files) {
         return files.stream()
